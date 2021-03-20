@@ -31,7 +31,7 @@ const client = new Twit({
 
 const callTwitter = async (i, cb) => {
     const startTime = performance.now()
-    const response = await client.get('statuses/show', {
+    await client.get('statuses/show', {
         id: args.tweetId,
         tweet_mode: 'extended'
     })
@@ -46,6 +46,9 @@ const callTwitter = async (i, cb) => {
 const gatherResults = (err, results) => {
     if (err) throw err
 
+    console.log()
+    console.log('--------------------')
+    console.log()
     console.log('Corrida,Tiempo (ms)')
     results.forEach(result => {
         console.log(`${result.run},${result.msSpent}`)
@@ -53,9 +56,9 @@ const gatherResults = (err, results) => {
 }
 
 if (args.parallel) {
-    console.log('Running tests in parallel')
+    console.log('Running tests in parallel for tweet', args.tweetId)
     async.times(args.numCalls, callTwitter, gatherResults)
 } else {
-    console.log('Running tests in sequential')
+    console.log('Running tests in sequential for tweet', args.tweetId)
     async.timesSeries(args.numCalls, callTwitter, gatherResults)
 }
