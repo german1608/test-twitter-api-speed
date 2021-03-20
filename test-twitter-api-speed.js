@@ -37,7 +37,7 @@ const callTwitter = async (i, cb) => {
     })
     const endTime = performance.now()
     return {
-        run: i,
+        run: i + 1,
         msSpent: endTime - startTime
     }
 
@@ -46,7 +46,10 @@ const callTwitter = async (i, cb) => {
 const gatherResults = (err, results) => {
     if (err) throw err
 
-    console.log(results)
+    console.log('Corrida,Tiempo (ms)')
+    results.forEach(result => {
+        console.log(`${result.run},${result.msSpent}`)
+    })
 }
 
 if (args.parallel) {
